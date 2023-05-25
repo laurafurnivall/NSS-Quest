@@ -15,7 +15,7 @@ namespace Quest
             {
                 shiny = "noticable";
             }
-            else if (ShininessLevel > 6 && ShininessLevel < 9)
+            else if (ShininessLevel >= 6 && ShininessLevel < 9)
             {
                 shiny = "bright";
             }

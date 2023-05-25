@@ -15,6 +15,15 @@ namespace Quest
             //   a correct answer
             //   a number of awesome points to gain or lose depending on the success of the challenge
             Challenge twoPlusTwo = new Challenge("2 + 2?", 4, 10);
+            Challenge twoPlusThree = new Challenge("2 + 3?", 5, 10);
+            Challenge twoPlusFour = new Challenge("2 + 4?", 6, 10);
+            Challenge twoPlusFive = new Challenge("2 + 5?", 7, 10);
+            Challenge twoPlusSix = new Challenge("2 + 6?", 8, 10);
+            Challenge favoriteAnimal = new Challenge(@"What is my favorite type of animal?
+            1) Birds
+            2) Big Cats
+            3) Primates
+            4) Frogs", 1, 20);
             Challenge theAnswer = new Challenge(
                 "What's the answer to life, the universe and everything?", 42, 25);
             Challenge whatSecond = new Challenge(
@@ -73,47 +82,81 @@ namespace Quest
                 theAnswer,
                 whatSecond,
                 guessRandom,
-                favoriteBeatle
+                favoriteBeatle,
+                twoPlusFive,
+                twoPlusFour,
+                twoPlusSix,
+                twoPlusThree,
+                favoriteAnimal
             };
 
-            // Loop through all the challenges and subject the Adventurer to them
-            foreach (Challenge challenge in challenges)
-            {
-                challenge.RunChallenge(theAdventurer);
 
+            void Run(Adventurer adventurer)
+            {
+                Random random = new Random();
+                List<Challenge> randomChallenges = new List<Challenge>();
+                while (randomChallenges.Count < 4)
+                {
+                    int index = random.Next(challenges.Count);
+                    Challenge candidate = challenges[index];
+                    if (!randomChallenges.Contains(candidate))
+                    {
+                        randomChallenges.Add(candidate);
+                    }
+
+                }
+
+                foreach (Challenge challenge in randomChallenges) // Loop through all the challenges and subject the Adventurer to them
+                {
+                    challenge.RunChallenge(theAdventurer);
+
+                }
+
+                // This code examines how Awesome the Adventurer is after completing the challenges
+                // And praises or humiliates them accordingly
+                if (theAdventurer.Awesomeness >= maxAwesomeness)
+                {
+                    Console.WriteLine("YOU DID IT! You are truly awesome!");
+                }
+                else if (theAdventurer.Awesomeness <= minAwesomeness)
+                {
+                    Console.WriteLine("Get out of my sight. Your lack of awesomeness offends me!");
+                }
+                else
+                {
+                    Console.WriteLine("I guess you did...ok? ...sorta. Still, you should get out of my sight.");
+                }
+                Prize thePrize = new Prize("Your done!");
+                thePrize.ShowPrize(theAdventurer);
+
+                void RunAgain(Adventurer adventuer)
+                {
+                    Console.WriteLine("Do you want to play again?\n\t1)Yes\n\t2)No");
+                    string playAgain = Console.ReadLine();
+                    int play = int.Parse(playAgain);
+
+                    switch (play)
+                    {
+                        case 1:
+                            int extraPoints = adventuer.CorrectAnswers * 10;
+                            adventuer.Awesomeness = 50 + extraPoints;
+                            adventuer.CorrectAnswers = 0;
+                            Run(adventuer);
+                            break;
+                        case 2:
+                            break;
+                    }
+                }
+                RunAgain(theAdventurer);
             }
 
-            // This code examines how Awesome the Adventurer is after completing the challenges
-            // And praises or humiliates them accordingly
-            if (theAdventurer.Awesomeness >= maxAwesomeness)
-            {
-                Console.WriteLine("YOU DID IT! You are truly awesome!");
-            }
-            else if (theAdventurer.Awesomeness <= minAwesomeness)
-            {
-                Console.WriteLine("Get out of my sight. Your lack of awesomeness offends me!");
-            }
-            else
-            {
-                Console.WriteLine("I guess you did...ok? ...sorta. Still, you should get out of my sight.");
-            }
-            RunAgain(args);
+            Run(theAdventurer);
+
+
+
+
         }
 
-        public static void RunAgain(string[] args)
-        {
-            Console.WriteLine("Do you want to play again?\n\t1)Yes\n\t2)No");
-            string playAgain = Console.ReadLine();
-            int play = int.Parse(playAgain);
 
-            switch (play)
-            {
-                case 1:
-                    Main(args);
-                    break;
-                case 2:
-                    break;
-            }
-        }
     }
 }

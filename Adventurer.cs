@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Quest
 {
@@ -18,6 +17,8 @@ namespace Quest
         public int Awesomeness { get; set; }
         public Hat Shine { get; set; }
 
+        public int CorrectAnswers { get; set; }
+
         // A constructor to make a new Adventurer object with a given name
         public Adventurer(string name, Robe robeColor, Hat shininess)
         {
@@ -25,6 +26,7 @@ namespace Quest
             Awesomeness = 50;
             ColorfulRobe = robeColor;
             Shine = shininess;
+            CorrectAnswers = 0;
         }
 
 
